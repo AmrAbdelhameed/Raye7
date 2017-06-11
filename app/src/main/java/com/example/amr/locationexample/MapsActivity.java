@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
+// implements OnMapLongClickListener
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
 
     private GoogleMap mMap;
@@ -43,10 +44,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+//        mMap.setOnMapLongClickListener(this);
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
         etOrigin = (EditText) findViewById(R.id.etOrigin);
@@ -69,6 +73,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         if (destination.isEmpty()) {
             Toast.makeText(this, "Please enter destination address", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (origin.equals(destination)) {
+            Toast.makeText(this, "This is not exist", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -160,4 +169,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
     }
+//
+//    @Override
+//    public void onMapLongClick(LatLng latLng) {
+//        mMap.addMarker(new MarkerOptions()
+//                .position(latLng)
+//                .title(latLng.toString())
+//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+//
+//        Toast.makeText(getApplicationContext(),
+//                "New marker added@" + latLng.toString(), Toast.LENGTH_LONG)
+//                .show();
+//    }
 }
