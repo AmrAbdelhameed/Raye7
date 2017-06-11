@@ -28,8 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
-// implements OnMapLongClickListener
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, DirectionFinderListener, GoogleMap.OnMapLongClickListener {
 
     private GoogleMap mMap;
     private Button btnFindPath;
@@ -50,7 +49,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-//        mMap.setOnMapLongClickListener(this);
+        mMap.setOnMapLongClickListener(this);
 
         btnFindPath = (Button) findViewById(R.id.btnFindPath);
         etOrigin = (EditText) findViewById(R.id.etOrigin);
@@ -169,16 +168,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             polylinePaths.add(mMap.addPolyline(polylineOptions));
         }
     }
-//
-//    @Override
-//    public void onMapLongClick(LatLng latLng) {
-//        mMap.addMarker(new MarkerOptions()
-//                .position(latLng)
-//                .title(latLng.toString())
-//                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-//
+
+    @Override
+    public void onMapLongClick(LatLng latLng) {
+        mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(latLng.toString())
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
 //        Toast.makeText(getApplicationContext(),
 //                "New marker added@" + latLng.toString(), Toast.LENGTH_LONG)
 //                .show();
-//    }
+
+        etDestination.setText(latLng.toString());
+    }
+
 }
